@@ -1,0 +1,23 @@
+{
+  "name": "seeding-orchestrator-mcp",
+  "version": "0.1.0",
+  "description": "Orchestrator that runs project seed workflows for Prisma, Django, and Alembic via a single seed() tool.",
+  "api": {
+    "type": "http",
+    "base_url": "/mcp"
+  },
+  "tools": {
+    "seed": {
+      "endpoint": "/mcp/seed",
+      "method": "POST",
+      "input_schema": {
+        "project_path": "string (path on the server or mounted workspace)",
+        "project_type": "string (optional: prisma|django|alembic|auto)",
+        "env": "object (optional) - env vars to set for the command",
+        "fixtures": "array (optional) - for Django loaddata",
+        "timeout": "integer (seconds) - optional execution timeout"
+      },
+      "output": "JSON result with per-runner status, exit codes, stdout/stderr"
+    }
+  }
+}

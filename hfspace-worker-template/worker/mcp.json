@@ -1,0 +1,29 @@
+{
+  "name": "hfspace-worker-template",
+  "version": "0.1.0",
+  "description": "HF Space worker template for MetaMCP - health/capabilities/exec endpoints",
+  "api": {
+    "type": "http",
+    "base_url": "/mcp"
+  },
+  "tools": {
+    "health": {
+      "endpoint": "/mcp/health",
+      "method": "GET",
+      "output": "health JSON"
+    },
+    "capabilities": {
+      "endpoint": "/mcp/capabilities",
+      "method": "GET",
+      "output": "capabilities JSON"
+    },
+    "exec": {
+      "endpoint": "/mcp/exec",
+      "method": "POST",
+      "input_schema": {
+        "envelope_jwt": "string (signed job envelope)"
+      },
+      "output": "job accepted JSON"
+    }
+  }
+}

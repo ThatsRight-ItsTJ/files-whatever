@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+httpx
+pyjwt
+huggingface-hub
+kglab
+rdflib
+semgrep
+tree_sitter
+python-multipart
