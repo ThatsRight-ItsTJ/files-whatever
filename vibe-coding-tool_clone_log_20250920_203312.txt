@@ -1,0 +1,142 @@
+[0;34m=== Core Vibe Components ===[0m
+[1] Checking: libraries-io-mcp-server
+Cloning into 'custom-mcps/libraries-io-mcp-server'...
+  [SUCCESS] https://github.com/ThatsRight-ItsTJ/libraries-io-mcp-server.git
+[2] Checking: Your-PaL-MoE-v0.3
+Cloning into 'custom-mcps/Your-PaL-MoE-v0.3'...
+  [SUCCESS] https://github.com/ThatsRight-ItsTJ/Your-PaL-MoE-v0.3.git
+[3] Checking: GitHub-File-Seek
+Cloning into 'custom-mcps/GitHub-File-Seek'...
+  [SUCCESS] https://github.com/ThatsRight-ItsTJ/GitHub-File-Seek.git
+[4] Checking: files-whatever
+Cloning into 'custom-mcps/files-whatever'...
+  [SUCCESS] https://github.com/ThatsRight-ItsTJ/files-whatever.git
+[0;34m=== MetaMCP Core ===[0m
+[5] Checking: metamcp
+Cloning into 'core-components/metamcp'...
+  [SUCCESS] https://github.com/metatool-ai/metamcp.git
+[0;34m=== Official MCP Servers ===[0m
+[6] Checking: mcp-servers
+Cloning into 'official-mcps/mcp-servers'...
+  [SUCCESS] https://github.com/modelcontextprotocol/servers.git
+[7] Checking: anthropic-mcp-servers
+  [NOT FOUND] https://github.com/anthropics/anthropic-mcp-servers.git
+[8] Checking: hf-mcp-server
+Cloning into 'official-mcps/hf-mcp-server'...
+  [SUCCESS] https://github.com/evalstate/hf-mcp-server.git
+[0;34m=== AI Provider MCPs ===[0m
+[9] Checking: pollinations-mcp
+  [NOT FOUND] https://github.com/pollinations/pollinations-mcp.git
+[0;34m=== Code Analysis MCPs ===[0m
+[10] Checking: semgrep-mcp
+  [NOT FOUND] https://github.com/semgrep/semgrep-mcp.git
+[11] Checking: mcp-server-tree-sitter
+Cloning into 'community-mcps/mcp-server-tree-sitter'...
+  [SUCCESS] https://github.com/wrale/mcp-server-tree-sitter.git
+[12] Checking: radon-mcp-server
+  [NOT FOUND] https://github.com/radon-mcp/radon-mcp-server.git
+[13] Checking: langtools-mcp
+  [NOT FOUND] https://github.com/langtools/langtools-mcp.git
+[0;34m=== Search & Discovery MCPs ===[0m
+[14] Checking: sourcegraph-mcp
+  [NOT FOUND] https://github.com/sourcegraph/sourcegraph-mcp.git
+[15] Checking: context7-mcp
+  [NOT FOUND] https://github.com/context7/context7-mcp.git
+[0;34m=== Testing MCPs ===[0m
+[16] Checking: mcp-pytest-service
+  [NOT FOUND] https://github.com/pytest-dev/mcp-pytest-service.git
+[17] Checking: mcp-jest
+  [NOT FOUND] https://github.com/jestjs/mcp-jest.git
+[18] Checking: playwright-mcp
+Cloning into 'testing-mcps/playwright-mcp'...
+  [SUCCESS] https://github.com/microsoft/playwright-mcp.git
+[19] Checking: coverage-mcp-server
+  [NOT FOUND] https://github.com/coverage-mcp/coverage-mcp-server.git
+[0;34m=== Database MCPs ===[0m
+[20] Checking: prisma-mcp
+  [NOT FOUND] https://github.com/prisma/prisma-mcp.git
+[21] Checking: django-mcp
+  [NOT FOUND] https://github.com/django/django-mcp.git
+[22] Checking: sqlalchemy-mcp
+  [NOT FOUND] https://github.com/sqlalchemy/sqlalchemy-mcp.git
+[23] Checking: mcp-database-server
+Cloning into 'database-mcps/mcp-database-server'...
+  [SUCCESS] https://github.com/executeautomation/mcp-database-server.git
+[24] Checking: supabase-mcp
+  [NOT FOUND] https://github.com/supabase/supabase-mcp.git
+[0;34m=== Deployment MCPs ===[0m
+[25] Checking: vercel-mcp
+  [NOT FOUND] https://github.com/vercel/vercel-mcp.git
+[26] Checking: netlify-mcp
+Cloning into 'deployment-mcps/netlify-mcp'...
+  [SUCCESS] https://github.com/netlify/netlify-mcp.git
+[27] Checking: cloudflare-mcp-server
+  [NOT FOUND] https://github.com/cloudflare/cloudflare-mcp-server.git
+[28] Checking: railway-mcp
+  [NOT FOUND] https://github.com/railwayapp/railway-mcp.git
+[29] Checking: docker-mcp
+Cloning into 'deployment-mcps/docker-mcp'...
+  [SUCCESS] https://github.com/docker/docker-mcp.git
+[0;34m=== Cloudflare Specific MCPs ===[0m
+[30] Checking: workers-mcp
+Cloning into 'cloudflare-mcps/workers-mcp'...
+  [SUCCESS] https://github.com/cloudflare/workers-mcp.git
+[31] Checking: kv-mcp
+  [NOT FOUND] https://github.com/cloudflare/kv-mcp.git
+[32] Checking: r2-mcp
+  [NOT FOUND] https://github.com/cloudflare/r2-mcp.git
+[33] Checking: d1-mcp
+  [NOT FOUND] https://github.com/cloudflare/d1-mcp.git
+[0;34m=== MCP SDKs ===[0m
+[34] Checking: mcp-python-sdk
+Cloning into 'tools-sdks/mcp-python-sdk'...
+  [SUCCESS] https://github.com/modelcontextprotocol/python-sdk.git
+[35] Checking: mcp-typescript-sdk
+Cloning into 'tools-sdks/mcp-typescript-sdk'...
+  [SUCCESS] https://github.com/modelcontextprotocol/typescript-sdk.git
+[0;34m=== Frontend Dependencies ===[0m
+[36] Checking: react-monaco-editor
+Cloning into 'frontend-deps/react-monaco-editor'...
+  [SUCCESS] https://github.com/react-monaco-editor/react-monaco-editor.git
+[37] Checking: next-auth
+Cloning into 'frontend-deps/next-auth'...
+  [SUCCESS] https://github.com/nextauthjs/next-auth.git
+[38] Checking: zustand
+Cloning into 'frontend-deps/zustand'...
+  [SUCCESS] https://github.com/pmndrs/zustand.git
+[39] Checking: react-query
+Cloning into 'frontend-deps/react-query'...
+  [SUCCESS] https://github.com/TanStack/query.git
+[40] Checking: cytoscape
+Cloning into 'frontend-deps/cytoscape'...
+  [SUCCESS] https://github.com/cytoscape/cytoscape.js.git
+[41] Checking: d3
+Cloning into 'frontend-deps/d3'...
+  [SUCCESS] https://github.com/d3/d3.git
+[42] Checking: react-flow
+Cloning into 'frontend-deps/react-flow'...
+  [SUCCESS] https://github.com/wbkd/react-flow.git
+[43] Checking: radix-ui
+Cloning into 'frontend-deps/radix-ui'...
+  [SUCCESS] https://github.com/radix-ui/primitives.git
+[44] Checking: tailwindcss
+Cloning into 'frontend-deps/tailwindcss'...
+  [SUCCESS] https://github.com/tailwindlabs/tailwindcss.git
+[45] Checking: headlessui
+Cloning into 'frontend-deps/headlessui'...
+  [SUCCESS] https://github.com/tailwindlabs/headlessui.git
+[0;34m=== Reference Repositories ===[0m
+[46] Checking: mcp-specification
+Cloning into 'reference-repos/mcp-specification'...
+  [SUCCESS] https://github.com/modelcontextprotocol/specification.git
+[47] Checking: mcp-examples
+  [NOT FOUND] https://github.com/modelcontextprotocol/examples.git
+[48] Checking: bolt.diy
+Cloning into 'reference-repos/bolt.diy'...
+  [SUCCESS] https://github.com/stackblitz-labs/bolt.diy.git
+[49] Checking: kilocode
+Cloning into 'reference-repos/kilocode'...
+  [SUCCESS] https://github.com/Kilo-Org/kilocode.git
+[50] Checking: graphiti
+Cloning into 'reference-repos/graphiti'...
+  [SUCCESS] https://github.com/getzep/graphiti.git

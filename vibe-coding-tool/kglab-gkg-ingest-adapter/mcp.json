@@ -1,0 +1,57 @@
+{
+  "name": "kglab-gkg-ingest-adapter",
+  "version": "0.1.0",
+  "description": "GKG ingestion adapter using kglab (with rdflib fallback).",
+  "api": {
+    "type": "http",
+    "base_url": "/mcp"
+  },
+  "tools": {
+    "ingest_url": {
+      "endpoint": "/mcp/ingest_url",
+      "method": "POST",
+      "input_schema": {
+        "url": "string (URL to fetch)",
+        "source_name": "string (optional)",
+        "graph": "string (graph name, optional)"
+      },
+      "output": "JSON summary of ingestion (triples added, graph name)"
+    },
+    "ingest_text": {
+      "endpoint": "/mcp/ingest_text",
+      "method": "POST",
+      "input_schema": {
+        "text": "string",
+        "source_name": "string (optional)",
+        "graph": "string (graph name, optional)"
+      },
+      "output": "JSON summary of ingestion (triples added, graph name)"
+    },
+    "query": {
+      "endpoint": "/mcp/query",
+      "method": "POST",
+      "input_schema": {
+        "graph": "string (optional)",
+        "sparql": "string (SPARQL query)"
+      },
+      "output": "SPARQL query results (JSON)"
+    },
+    "export_graph": {
+      "endpoint": "/mcp/export_graph",
+      "method": "GET",
+      "input_schema": {
+        "graph": "string (optional, default: default)",
+        "format": "string (ttl|json-ld|nt)"
+      },
+      "output": "Graph serialization stream"
+    },
+    "stats": {
+      "endpoint": "/mcp/stats",
+      "method": "GET",
+      "input_schema": {
+        "graph": "string (optional)"
+      },
+      "output": "JSON graph statistics"
+    }
+  }
+}

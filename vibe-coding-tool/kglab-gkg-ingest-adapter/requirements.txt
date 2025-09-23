@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+httpx
+beautifulsoup4
+rdflib
+kglab
+python-multipart
+# optional: spacy, transformers, sentence-transformers for entity/relation extraction

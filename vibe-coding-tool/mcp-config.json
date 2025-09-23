@@ -1,0 +1,152 @@
+{
+  "version": "1.0.0",
+  "name": "Vibe Coding Tool MCP Configuration",
+  "description": "Configuration for all MCP servers used in the Vibe Coding Tool",
+  "servers": {
+    "libraries-io-mcp": {
+      "command": "python",
+      "args": ["-m", "libraries_io_mcp_server"],
+      "cwd": "./custom-mcps/libraries-io-mcp-server",
+      "env": {
+        "PYTHONPATH": "./custom-mcps/libraries-io-mcp-server/src"
+      },
+      "description": "Package ecosystem search via Libraries.io",
+      "category": "package-management",
+      "priority": 1
+    },
+    "github-file-seek-wrapper": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "./github-file-seek-mcp-wrapper",
+      "description": "GitHub file search and download wrapper",
+      "category": "github-integration",
+      "priority": 1
+    },
+    "github-mcp": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "description": "Official GitHub MCP server for repository management",
+      "category": "github-integration",
+      "priority": 1
+    },
+    "hf-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "./official-mcps/hf-mcp-server/packages/app",
+      "description": "HuggingFace MCP server for Spaces and Datasets",
+      "category": "ai-provider",
+      "priority": 1
+    },
+    "tree-sitter-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "./community-mcps/mcp-server-tree-sitter",
+      "description": "Tree-sitter based code parsing and analysis",
+      "category": "code-analysis",
+      "priority": 1
+    },
+    "playwright-mcp": {
+      "command": "node",
+      "args": ["cli.js"],
+      "cwd": "./testing-mcps/playwright-mcp",
+      "description": "Playwright MCP for browser automation testing",
+      "category": "testing",
+      "priority": 1
+    },
+    "database-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "./database-mcps/mcp-database-server",
+      "description": "Multi-database MCP server for SQL operations",
+      "category": "database",
+      "priority": 1
+    },
+    "netlify-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "./deployment-mcps/netlify-mcp",
+      "description": "Netlify deployment MCP server",
+      "category": "deployment",
+      "priority": 1
+    },
+    "docker-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "./deployment-mcps/docker-mcp",
+      "description": "Docker container management MCP server",
+      "category": "deployment",
+      "priority": 1
+    },
+    "cloudflare-workers-mcp": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "./cloudflare-mcps/workers-mcp",
+      "description": "Cloudflare Workers MCP server",
+      "category": "deployment",
+      "priority": 1
+    },
+    "your-pal-moe": {
+      "command": "python",
+      "args": ["app.py"],
+      "cwd": "./custom-mcps/Your-PaL-MoE-v0.3",
+      "description": "Multi-provider AI assistant",
+      "category": "ai-provider",
+      "priority": 1
+    },
+    "seeding-orchestrator": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "./seeding-orchestrator-mcp",
+      "description": "Unified database seeding orchestrator for multiple ORMs",
+      "category": "database",
+      "priority": 1
+    }
+  },
+  "adapters": {
+    "github-file-seek": {
+      "type": "wrapper",
+      "wraps": "github-mcp",
+      "tools": ["find_files", "download_files"],
+      "description": "Enhanced GitHub file search with glob patterns and batch downloading"
+    },
+    "seeding-orchestrator": {
+      "type": "orchestrator",
+      "tools": ["seed", "detect_project_type", "list_seeders"],
+      "description": "Unified database seeding across multiple ORMs"
+    },
+    "coverage-aggregator": {
+      "type": "aggregator",
+      "tools": ["coverage_report"],
+      "description": "Aggregates coverage reports from multiple testing frameworks"
+    }
+  },
+  "routing": {
+    "package-search": ["libraries-io-mcp"],
+    "file-operations": ["github-file-seek-wrapper"],
+    "repository-management": ["github-mcp"],
+    "ai-analysis": ["your-pal-moe", "hf-mcp"],
+    "code-parsing": ["tree-sitter-mcp"],
+    "testing": ["playwright-mcp"],
+    "database": ["database-mcp", "seeding-orchestrator"],
+    "deployment": ["netlify-mcp", "docker-mcp", "cloudflare-workers-mcp"]
+  },
+  "rate_limits": {
+    "default": {
+      "requests_per_minute": 60,
+      "burst_size": 10
+    },
+    "github-mcp": {
+      "requests_per_minute": 30,
+      "burst_size": 5
+    },
+    "ai-analysis": {
+      "requests_per_minute": 20,
+      "burst_size": 3
+    }
+  },
+  "health_checks": {
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  }
+}

@@ -1,0 +1,352 @@
+version: '3.8'
+
+services:
+  # Main application
+  app:
+    build: .
+    container_name: vibe-coding-tool-orchestrator
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/vibe_coding_tool
+      - REDIS_URL=redis://redis:6379/0
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key-here}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - HF_CLIENT_ID=${HF_CLIENT_ID}
+      - HF_CLIENT_SECRET=${HF_CLIENT_SECRET}
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - DEBUG=${DEBUG:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
+    networks:
+      - vibe-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:15-alpine
+    container_name: vibe-coding-tool-postgres
+    environment:
+      - POSTGRES_DB=vibe_coding_tool
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # Redis cache and queue
+  redis:
+    image: redis:7-alpine
+    container_name: vibe-coding-tool-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # Redis dashboard (optional)
+  redis-dashboard:
+    image: eoranged/rq-dashboard
+    container_name: vibe-coding-tool-redis-dashboard
+    ports:
+      - "9181:9181"
+    environment:
+      - RQ_DASHBOARD_REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # PostgreSQL database admin (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: vibe-coding-tool-pgadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: vibe-coding-tool-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # Monitoring and logging
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: vibe-coding-tool-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: vibe-coding-tool-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # Log aggregation (optional)
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.8.0
+    container_name: vibe-coding-tool-logstash
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logstash/config:/usr/share/logstash/config
+    environment:
+      - "ES_HOSTS=elasticsearch:9200"
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: vibe-coding-tool-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.0
+    container_name: vibe-coding-tool-kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # Development tools
+  flower:
+    image: mher/flower:latest
+    container_name: vibe-coding-tool-flower
+    ports:
+      - "5555:5555"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # Backup service
+  backup:
+    image: postgres:15-alpine
+    container_name: vibe-coding-tool-backup
+    environment:
+      - PGPASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    depends_on:
+      - postgres
+    command: >
+      sh -c "echo 'Creating backup...' &&
+             pg_dump -h postgres -U postgres vibe_coding_tool > /backups/backup_$(date +%Y%m%d_%H%M%S).sql &&
+             echo 'Backup completed'"
+    restart: "no"
+    networks:
+      - vibe-network
+
+  # MCP servers
+  github-mcp:
+    image: github-mcp-server:latest
+    container_name: vibe-coding-tool-github-mcp
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_API_URL=${GITHUB_API_URL:-https://api.github.com}
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  tree-sitter-mcp:
+    image: tree-sitter-mcp-server:latest
+    container_name: vibe-coding-tool-tree-sitter-mcp
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  semgrep-mcp:
+    image: semgrep-mcp-server:latest
+    container_name: vibe-coding-tool-semgrep-mcp
+    environment:
+      - SEMGREP_TOKEN=${SEMGREP_TOKEN}
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  cloudflare-mcp:
+    image: cloudflare-mcp-server:latest
+    container_name: vibe-coding-tool-cloudflare-mcp
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - CLOUDFLARE_ZONE_ID=${CLOUDFLARE_ZONE_ID}
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  libraries-io-mcp:
+    image: libraries-io-mcp-server:latest
+    container_name: vibe-coding-tool-libraries-io-mcp
+    environment:
+      - LIBRARIES_IO_TOKEN=${LIBRARIES_IO_TOKEN}
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  docker-mcp:
+    image: docker-mcp-server:latest
+    container_name: vibe-coding-tool-docker-mcp
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  netlify-mcp:
+    image: netlify-mcp-server:latest
+    container_name: vibe-coding-tool-netlify-mcp
+    environment:
+      - NETLIFY_TOKEN=${NETLIFY_TOKEN}
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+  # Load balancer (for scaling)
+  load-balancer:
+    image: nginx:alpine
+    container_name: vibe-coding-tool-load-balancer
+    ports:
+      - "8001:80"
+    volumes:
+      - ./nginx/load-balancer.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - vibe-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  vibe-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

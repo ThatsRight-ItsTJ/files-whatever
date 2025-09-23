@@ -1,0 +1,27 @@
+{
+  "name": "github-file-seek-wrapper",
+  "version": "1.0.0",
+  "description": "GitHub File Seek wrapper with enhanced search capabilities",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.16.0",
+    "@octokit/rest": "^20.0.0",
+    "glob": "^10.3.0",
+    "minimatch": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/minimatch": "^5.1.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

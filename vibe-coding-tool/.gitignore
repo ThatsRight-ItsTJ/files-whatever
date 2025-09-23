@@ -1,0 +1,191 @@
+# Dependencies
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Go
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Build outputs
+dist/
+build/
+out/
+target/
+bin/
+
+# Logs
+*.log
+logs/
+log/
+
+# Runtime data
+pids
+*.pid
+*.pid.lock
+*.seed
+
+# IDE and editor files
+.vscode/
+.vscode-test/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+# Ignore Docker-related files if not needed, but keep .dockerignore
+# *.dockerignore  # Do not ignore, as it's source
+
+# Temporary files
+*.tmp
+*.temp
+# Project-specific ignores
+metamcp_artifacts/
+
+# Coverage and test reports
+coverage/
+.coverage
+htmlcov/
+.nyc_output
+coverage.lcov
+.nyc_output
+test-results/
+*.test.tsbuildinfo
+*.tsbuildinfo
+
+# Next.js
+.next/
+.next/cache/
+.vite/
+out/
+
+# Go dependencies (if vendored)
+vendor/
+
+# Docker
+docker-compose.override.yml
+
+# Grafana
+grafana/data/
+grafana/grafana.db
+
+# Logstash
+logstash/data/
+
+# Cache directories
+.cache/
+.huggingface/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Generated datasets
+*.jsonl
+
+# Additional testing artifacts
+.pytest_cache/
+.pytest_cache/v/cache/
+.pytest_cache/v/cache/step_cache/
+.pytest_cache/v/cache/nodeids.cache
+.pytest_cache/v/cache/func_cache/
+.pytest_cache/v/cache/step_cache/
+cypress/videos/
+cypress/screenshots/
+.vscode-test/
+*.cover
+*.py,cover
+.hypothesis/
+
+# Additional IDE files
+.vscode/settings.json
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/shelf/
+.idea/contentModel.xml
+Desktop.ini
+
+# Additional temp files
+temp/
+tmp/
+
+# Additional coverage
+.tox/
+.coverage.*
+nosetests.xml
+
+# Additional Node.js
+.eslintcache
+.lint

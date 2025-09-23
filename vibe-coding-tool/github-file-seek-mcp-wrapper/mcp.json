@@ -1,0 +1,32 @@
+{
+  "name": "github-file-seek-mcp-wrapper",
+  "version": "0.1.0",
+  "description": "HTTP MCP wrapper implementing find_files and download_files using the GitHub API",
+  "api": {
+    "type": "http",
+    "base_url": "/mcp"
+  },
+  "tools": {
+    "find_files": {
+      "endpoint": "/mcp/find_files",
+      "method": "POST",
+      "input_schema": {
+        "repo": "string (owner/repo)",
+        "branch": "string (branch or tag) - optional, default: main",
+        "pattern": "string (glob or regex)",
+        "mode": "string (glob|regex) - optional, default: glob"
+      },
+      "output": "JSON array of matched file paths"
+    },
+    "download_files": {
+      "endpoint": "/mcp/download_files",
+      "method": "POST",
+      "input_schema": {
+        "repo": "string (owner/repo)",
+        "branch": "string (branch or tag) - optional",
+        "paths": "array of file paths to download"
+      },
+      "output": "ZIP file stream"
+    }
+  }
+}
