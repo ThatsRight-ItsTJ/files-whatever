@@ -1,0 +1,56 @@
+{
+  "mcpServers": {
+    "prisma": {
+      "command": "npx",
+      "args": ["prisma-mcp-server"],
+      "env": {
+        "DATABASE_URL": "env:DATABASE_URL"
+      },
+      "description": "Prisma ORM MCP for Node/TS projects",
+      "category": "database",
+      "priority": 1
+    }
+  },
+  "tools": [
+    {
+      "name": "prisma-generate",
+      "description": "Generate Prisma schema from database",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "database_url": {
+            "type": "string",
+            "description": "Database connection string"
+          }
+        },
+        "required": ["database_url"]
+      }
+    },
+    {
+      "name": "prisma-migrate",
+      "description": "Run Prisma migrations",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "migration_name": {
+            "type": "string"
+          }
+        },
+        "required": ["migration_name"]
+      }
+    },
+    {
+      "name": "prisma-seed",
+      "description": "Run Prisma seed",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "seed_data": {
+            "type": "object"
+          }
+        },
+        "required": ["seed_data"]
+      }
+    }
+  ]
+}
